@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PracticalAssignments
 {
@@ -67,43 +68,99 @@ namespace PracticalAssignments
 
     }
 
+
+    abstract class Bill
+    {
+        public int usage;
+
+        public abstract int CalculateBill();
+    }
+
+    internal class MobileBill : Bill
+    {
+        public MobileBill(int usage)
+        {
+            this.usage = usage;
+        }
+
+        public override int CalculateBill()
+        {
+            return this.usage * 100;
+        }
+    }
+    internal class InternetBill : Bill
+    {
+        public InternetBill(int usage)
+        {
+            this.usage = usage;
+        }
+
+        public override int CalculateBill()
+        {
+            return this.usage * 200;
+        }
+    }
+    internal class ElectricityBill : Bill
+    {
+        public ElectricityBill(int usage)
+        {
+            this.usage = usage;
+        }
+
+        public override int CalculateBill()
+        {
+            return this.usage * 300;
+        }
+    }
+
     internal class Program
     {
+        public static Boolean checkPalindrome(int num)
+        {
+            string s = $"{num}";
+            char[] charArray = s.ToCharArray();
+            Array.Reverse(charArray);
+            char[] revereCharArray = s.ToCharArray();
+            for (int a = 0; a < charArray.Length; a++)
+            {
+                if (charArray[a] != revereCharArray[a])
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static int factorial(int n)
+        {
+            if (n <= 1)
+            {
+                return 1;
+            }
+             return n * factorial(n - 1);
+        }
+
+        public static Boolean validateEmail(string email)
+        {
+            return email.Contains("@");
+        }
+
+
         static void Main(string[] args)
         {
-            Company c = new Company(123);
-            Console.WriteLine("Please Enter Your Basic Salary");
-            int basicSalary = int.Parse(Console.ReadLine());
-            Console.WriteLine("Type 1 For DA, 2 for HRA, 3 for GRS:");
-            int selectedOption = int.Parse(Console.ReadLine());
-            if(selectedOption == 1)
-            {
-                c.calcHraOrDa(basicSalary, out int calcAmount,SalaryDetail.DA);
-                Console.WriteLine($"{calcAmount}");
-            }   else if(selectedOption == 2)
-            {
-                c.calcHraOrDa(basicSalary, out int calcAmount, SalaryDetail.HRA);
-                Console.WriteLine($"{calcAmount}");
-            }   else if (selectedOption == 3)
-            {
-                c.displayGross(basicSalary);
-            }
+            Console.WriteLine(checkPalindrome(1221)); //TRUE
+            Console.WriteLine(checkPalindrome(12213)); //FALSE
+            Console.WriteLine(factorial(5)); // 120
+            Console.WriteLine(validateEmail("dheeraj@gm")); // TRUE
+            Console.WriteLine(validateEmail("dheerajgm")); // FALSE
 
-            Console.WriteLine("Entering Calculator:");
-            Console.WriteLine("1. Add, 2. Subtract, 3. Multiply, 4. Exit");
+            Bill mobileBill = new MobileBill(12);
+            Bill internetBill = new InternetBill(34);
+            Bill electricityBill = new ElectricityBill(56);
 
-            int op = int.Parse(Console.ReadLine());
+            Console.WriteLine(mobileBill.CalculateBill());
+            Console.WriteLine(internetBill.CalculateBill());
+            Console.WriteLine(electricityBill.CalculateBill());
 
-            if(op == 4) {
-                Environment.Exit(0);
-            }
-
-            Console.WriteLine("Enter Operand 1 : ");
-            int operandOne = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter Operand 2 : ");
-            int operandTwo = int.Parse(Console.ReadLine());
-            int sol = op == 1 ? operandOne + operandTwo : op == 2 ? operandOne - operandTwo : operandTwo * operandTwo;
-            Console.WriteLine($"Solution: {sol}");
             Console.ReadKey();
         }
     }
