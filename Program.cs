@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PracticalAssignments
@@ -68,6 +69,24 @@ namespace PracticalAssignments
 
     }
 
+    class Product {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public int Price { get; set; }
+
+        public Product(int id, string name, int price)
+        {
+            this.ProductId = id;
+            this.ProductName = name;
+            this.Price = price;
+        }
+
+        override
+        public string ToString() {
+
+            return $"ProductId {ProductId} ProductName {ProductName} Price {Price}";
+        }
+    }
 
     abstract class Bill
     {
@@ -110,6 +129,24 @@ namespace PracticalAssignments
         public override int CalculateBill()
         {
             return this.usage * 300;
+        }
+    }
+
+    internal class Employee
+    {
+        public Employee(int id, int salary)
+        {
+            Id = id;
+            Salary = salary;
+        }
+
+        public int Id { get; set; }
+        public int Salary { get; set; }
+
+        override
+        public string ToString()
+        {
+            return $"Id {Id} Salary {Salary}";
         }
     }
 
@@ -161,6 +198,78 @@ namespace PracticalAssignments
             Console.WriteLine(internetBill.CalculateBill());
             Console.WriteLine(electricityBill.CalculateBill());
 
+            // Arrays
+            const int PASS_MARKS = 30;
+            int[] Marks = { 100, 29, 60, 50, 50 };
+
+            int Highest = int.MinValue;
+            int Lowest = int.MaxValue;
+            int PassedCount = 0;
+
+            for(int i = 0; i < Marks.Length; i++)
+            {
+
+                Highest = Math.Max(Highest, Marks[i]);
+                Lowest = Math.Min(Lowest, Marks[i]);
+                PassedCount += Marks[i] >= PASS_MARKS ? 1 : 0;
+            }
+
+            Console.WriteLine($"Highest {Highest} Lowest {Lowest} PassCount {PassedCount}");
+
+
+            // Array of Object
+            Product[] Bills = { new Product(1, "a", 100), new Product(2, "b", 400), new Product(3, "c", 30) };
+            int IdToSearch = 2;
+            Product FoundProduct;
+            int PriceLimit = 200;
+            foreach (Product item in Bills)
+            {
+                if(item.ProductId == IdToSearch)
+                {
+                    FoundProduct = item;
+                }
+                if (item.Price >= PriceLimit)
+                {
+                    Console.WriteLine(item.ToString());
+                }
+
+            }
+
+            // List
+            List<Employee> list = new List<Employee>();
+            // Adding
+            list.Add(new Employee(1, 2000));
+            list.Add(new Employee(2, 2000));
+            list.Add(new Employee(3, 2000));
+
+            foreach (Employee item in list)
+            {
+                item.Salary += 1000;
+                
+            }
+            foreach (Employee item in list)
+            {
+                Console.WriteLine(item.ToString());
+            }
+            // REMOVING an Employee
+            list.Remove(list.Find(i => i.Id == 1));
+            Console.WriteLine("Display All");
+            foreach (Employee item in list)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
+            // Dictionary
+
+            //Diction<Id, Name>
+            Dictionary<int, string> d = new Dictionary<int, string>();
+
+            //Preventing Duplicate Key
+            if (!d.ContainsKey(1))
+                d.Add(1, "Dheeraj");
+            if(!d.ContainsKey(2))
+                d.Add(2, "Kashyap");
+                
             Console.ReadKey();
         }
     }
